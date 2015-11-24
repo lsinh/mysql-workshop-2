@@ -1,0 +1,33 @@
+//note I did this exercise after halfway through exercise 4 so this will retrieve the modified data set:
+
+Retrieve from Account:
+
+mysql> select * from Account;
++----+-------------------+----------+---------------------+---------------------+
+| id | email             | password | createdOn           | modifiedOn          |
++----+-------------------+----------+---------------------+---------------------+
+|  2 | j3smith@gmail.com | j3smith  | 2010-01-01 00:00:00 | 2015-01-01 00:00:00 |
++----+-------------------+----------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+Retrieve from AddressBook;
+
+mysql> select * from AddressBook;
++----+-----------+--------+---------------------+---------------------+
+| id | accountId | name   | createdOn           | modifiedOn          |
++----+-----------+--------+---------------------+---------------------+
+|  1 |         1 | Raquel | 2015-11-01 00:00:00 | 2015-11-01 00:00:00 |
++----+-----------+--------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+Retrieve from Entry:
+
+mysql> select * from Entry;
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+| id | addressBookId | firstName | lastName | birthday | type | subtype | contentLineOne | contentLineTwo | contentLineThree | contentLineFour | contentLineFive |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+|  1 |             0 | Leichin   | Sinha    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  2 |             0 | Sebastien | Boucher  | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  3 |             0 | Alaric    | Boyle    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+3 rows in set (0.00 sec)
