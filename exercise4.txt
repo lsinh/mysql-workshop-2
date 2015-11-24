@@ -1,0 +1,87 @@
+mysql> use decodemtl_addressbook;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++---------------------------------+
+| Tables_in_decodemtl_addressbook |
++---------------------------------+
+| Account                         |
+| AddressBook                     |
+| Entry                           |
++---------------------------------+
+3 rows in set (0.00 sec)
+
+mysql> describe Account;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email      | varchar(255) | NO   |     | NULL    |                |
+| password   | varchar(40)  | NO   |     | NULL    |                |
+| createdOn  | datetime     | NO   |     | NULL    |                |
+| modifiedOn | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+
+
+//to update Account Entry:
+
+mysql> select * from Account;
++----+----------------+----------+---------------------+---------------------+
+| id | email          | password | createdOn           | modifiedOn          |
++----+----------------+----------+---------------------+---------------------+
+|  2 | john@smith.com | jsmith   | 2010-01-01 00:00:00 | 2015-01-01 00:00:00 |
++----+----------------+----------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> update Account set email= 'j3smith@gmail.com', password = 'j3smith'  where id=2;   
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from Account;                                                                                               
++----+-------------------+----------+---------------------+---------------------+
+| id | email             | password | createdOn           | modifiedOn          |
++----+-------------------+----------+---------------------+---------------------+
+|  2 | j3smith@gmail.com | j3smith  | 2010-01-01 00:00:00 | 2015-01-01 00:00:00 |
++----+-------------------+----------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+//to UPDATE AddressBook entry:
+
+mysql> select * from AddressBook;
++----+-----------+--------+---------------------+---------------------+
+| id | accountId | name   | createdOn           | modifiedOn          |
++----+-----------+--------+---------------------+---------------------+
+|  1 |         1 | Rachel | 2012-09-01 00:00:00 | 2014-05-09 00:00:00 |
++----+-----------+--------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> update AddressBook set name = 'Raquel', createdOn = '2015-11-01', modifiedOn = '2015-11-01' where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+
+
+//To Update 3 rows of Entry using one query:
+
+mysql> update Entry set firstName = case when id =1 then 'Leich' when id = 2 then 'Seb' when id = 3 then 'Al' end WHERE id in (1,2,3);
+Query OK, 3 rows affected (0.02 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from Entry
+    -> ;
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+| id | addressBookId | firstName | lastName | birthday | type | subtype | contentLineOne | contentLineTwo | contentLineThree | contentLineFour | contentLineFive |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+|  1 |             0 | Leich     | Sinha    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  2 |             0 | Seb       | Boucher  | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  3 |             0 | Al        | Boyle    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> 
