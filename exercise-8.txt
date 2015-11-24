@@ -1,0 +1,62 @@
+//What is the email of the Account identified by "63"?
+
+mysql> select email from Account where id=63;
+
++-------------------------------------------------+
+| email                                           |
++-------------------------------------------------+
+| consectetuer.rhoncus.Nullam@temporloremeget.org |
++-------------------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+//What are the names of the AdressBooks belonging to accountId "3"?
+
+mysql> describe AddressBook;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| accountId  | int(11)      | NO   |     | NULL    |                |
+| name       | varchar(255) | NO   |     | NULL    |                |
+| createdOn  | datetime     | NO   |     | NULL    |                |
+| modifiedOn | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+
+mysql> select name from AddressBook where accountId=3;                                                                      
++---------------------------------+
+| name                            |
++---------------------------------+
+| Donec Incorporated              |
+| Ipsum Nunc LLC                  |
+| In Consectetuer Ltd             |
+| Lacus Aliquam Rutrum Industries |
+| Ac Ltd                          |
+| Mauris Consulting               |
+| Ornare Corporation              |
++---------------------------------+
+7 rows in set (0.00 sec)
+
+
+//On which date was the AddressBook titled "Lorem Foundation" created?
+
+mysql> select createdOn from AddressBook where name='Lorem Foundation';
++---------------------+
+| createdOn           |
++---------------------+
+| 2016-06-26 02:43:41 |
+| 2015-05-04 14:28:16 |
++---------------------+
+2 rows in set (0.00 sec)
+
+//There were two dates but also 2 Lorem Foundations as you can see below:
+
+mysql> select * from AddressBook where name='Lorem Foundation';
++-----+-----------+------------------+---------------------+---------------------+
+| id  | accountId | name             | createdOn           | modifiedOn          |
++-----+-----------+------------------+---------------------+---------------------+
+|   5 |        84 | Lorem Foundation | 2016-06-26 02:43:41 | 2015-04-06 10:24:41 |
+| 153 |        12 | Lorem Foundation | 2015-05-04 14:28:16 | 2015-05-24 20:46:26 |
++-----+-----------+------------------+---------------------+---------------------+
+2 rows in set (0.00 sec)
