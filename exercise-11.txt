@@ -1,0 +1,62 @@
+//How many Address Book Entries are not listed as other?
+
+
+mysql> describe Entry;
++------------------+---------------------------------+------+-----+---------+----------------+
+| Field            | Type                            | Null | Key | Default | Extra          |
++------------------+---------------------------------+------+-----+---------+----------------+
+| id               | int(11)                         | NO   | PRI | NULL    | auto_increment |
+| addressBookId    | int(11)                         | NO   |     | NULL    |                |
+| firstName        | varchar(255)                    | NO   |     | NULL    |                |
+| lastName         | varchar(255)                    | YES  |     | NULL    |                |
+| birthday         | datetime                        | YES  |     | NULL    |                |
+| type             | enum('home','work','other')     | NO   |     | NULL    |                |
+| subtype          | enum('phone','address','email') | NO   |     | NULL    |                |
+| contentLineOne   | varchar(255)                    | NO   |     | NULL    |                |
+| contentLineTwo   | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineThree | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineFour  | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineFive  | varchar(255)                    | YES  |     | NULL    |                |
++------------------+---------------------------------+------+-----+---------+----------------+
+12 rows in set (0.00 sec)
+
+mysql> select count(*) from Entry where type != 'other';
++----------+
+| count(*) |
++----------+
+|     2800 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+//How many Address Book Entries are listed as either home or work?
+
+mysql> select count(*) from Entry where type != 'other';
+
++----------+
+| count(*) |
++----------+
+|     2800 |
++----------+
+1 row in set (0.00 sec)
+
+or alternative:
+
+mysql> select count(*) from Entry where type = 'home' || type = 'work';                                                    
++----------+
+| count(*) |
++----------+
+|     2800 |
++----------+
+1 row in set (0.00 sec)
+
+//How many Address Book Entries are listed as phones?
+
+mysql> select count(*) from Entry where subtype = 'phone';
++----------+
+| count(*) |
++----------+
+|      600 |
++----------+
+1 row in set (0.00 sec)
