@@ -1,0 +1,39 @@
+//have to recreate decodemtl_addressbook_import database because I deleted it:
+
+mysql> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| information_schema    |
+| c9                    |
+| decodemtl_addressbook |
+| mysql                 |
+| performance_schema    |
++-----------------------+
+5 rows in set (0.00 sec)
+
+mysql> create database decodemtl_addressbook_import;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++------------------------------+
+| Database                     |
++------------------------------+
+| information_schema           |
+| c9                           |
+| decodemtl_addressbook        |
+| decodemtl_addressbook_import |
+| mysql                        |
+| performance_schema           |
++------------------------------+
+6 rows in set (0.00 sec)
+
+ mysql> use decodemtl_addressbook_import;
+Database changed
+mysql> source data/import-table-structure.sql;
+
+mysql> source data/import-account.sql;
+mysql> source data/import-addressbook.sql;
+mysql> source data/import-entry.sql;
+
+
