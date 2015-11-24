@@ -1,0 +1,119 @@
+lsinh:~/workspace $ mysql-ctl start
+Installing MySQL
+ * Stopping MySQL database server mysqld
+   ...done.
+ * Starting MySQL database server mysqld
+   ...done.
+ * Checking for tables which need an upgrade, are corrupt or were 
+not closed cleanly.
+
+MySQL 5.5 database added.  Please make note of these credentials:
+
+mysql> create table Authors (id int AUTO_INCREMENT PRIMARY KEY, firstName varchar(50), lastName varchar(50), bio text, dateOfBirth date);Query OK, 0 rows affected (0.10 sec)
+
+mysql> describe Authors;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+| firstName   | varchar(50) | YES  |     | NULL    |                |
+| lastName    | varchar(50) | YES  |     | NULL    |                |
+| bio         | text        | YES  |     | NULL    |                |
+| dateOfBirth | date        | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+
+mysql> insert into Authors set firstName= 'Ziad', lastName='Saab', bio = 'Lorem Ipsum', dateOfBirth = "1984-01-01";
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select firstName, lastName from Authors;
++-----------+----------+
+| firstName | lastName |
++-----------+----------+
+| Ziad      | Saab     |
++-----------+----------+
+1 row in set (0.01 sec)
+
+mysql> select * from Authors;
++----+-----------+----------+-------------+-------------+
+| id | firstName | lastName | bio         | dateOfBirth |
++----+-----------+----------+-------------+-------------+
+|  1 | Ziad      | Saab     | Lorem Ipsum | 1984-01-01  |
++----+-----------+----------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> delete from Authors where id=1;
+Query OK, 1 row affected (0.05 sec)
+
+
+mysql> describe Authors;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int(11)     | NO   | PRI | NULL    | auto_increment |
+| firstName   | varchar(50) | YES  |     | NULL    |                |
+| lastName    | varchar(50) | YES  |     | NULL    |                |
+| bio         | text        | YES  |     | NULL    |                |
+| dateOfBirth | date        | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.03 sec)
+
+mysql> select * from Authors;
+Empty set (0.00 sec)
+
+mysql> insert into Authors set firstName= 'Ziad', lastName='Saab', bio = 'Lorem Ipsum', dateOfBirth = "1984-01-01";
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Authors set 
+mysql> insert into Authors (firstName, lastName, bio, dateOfBirth) values ('John', 'Smith', 'sdsdgsgsg', '1984-09-09');
+
+mysql> select * from Authors where firstName='John';     //will show you all the Johns
+mysql> select * from Authors where firstName='John' AND lastName='Smith';   //will show you just the John Smith  
+mysql> select * from Authors where firstName='John' AND lastName like 'Smith';
+mysql> select * from Authors where firstName='John' AND lastName like '%Smith';   //anything that ends in Smith
+mysql> select * from Authors where firstName='John' AND lastName like 'Smith%'; //starting with Smith  
+mysql> select * from Authors where firstName='John' AND lastName like '%Smith%'; //anything with Smith
+mysql> Select * from Authors where dateOfBirth > '1950-01-01';  //after 1950
+mysql> Select firstName, lastName, bio, year(dateOfBirth) from Authors;   //will select only the year of Authors
+mysql> Select count(*) from Authors; //will give you number of Authors
+mysql> Select count(*) as numberOfAuthors from Authors; //will change count(*) to new name
+mysql> Select count(*) from Authors where firstName='John';
+mysql> Select count(*) from Authors where firstName='John' and lastName like '%smith%';
+
+mysql> Select *, datediff(now(), dateOfBirth) from Authors;
+mysql> Select *,datediff(now(),dateOfBirth), as daysOnEarth from Authors;
+mysql> Select *, datediff(now(), dateOfBirth) as daysOEarth from Authors where datediff(now(), dateOfBirth) < 15000;
+
+
+
+2nd Half of course
+show create table Authors;  //another create syntax but we geneally prefer describe
+
+mysql> Select year(dateOfBirth) from Authors;   //selects year of birth
+mysql> Select count(*), year(dateOfBirth) from Authors; //what did this do? it counted every element and gave you the first year
+mysql> Select count(*), year(dateOfBirth) from Authors group year(dateOfBirth); //will do a count based on year of birth, ts is useful
+mysql> Select count(*), firstName from Authors group by firstName; //wll get one row per different firstname and get a count of that
+mysql> Select avg(datediff(now(), dateOfBirth)) as averageDays from Authors;  //Will take average number of days of every author
+mysql> Select min(dateOfBirth) from Authors; //will take oldest Author
+mysql> Select max(dateOfBirth) from Authors; //will take youngest Author
+mysql> Select count(*), firstName from Authors group by irstName having count(*)=2; //will get count of johns
+
+
+How to UPDATE data
+this is done outside of mysql on command line:
+mysqldump -ulsinh --database blog > backup.sql //will create a textfile of your sql backup
+mysqldump -ulsinh --database blog < backup.sql //will type out the sql database, will automate the sql backup script so you don't have to type it
+
+mysql> update Authors set bio= 'i have a new bio' where id=3; //will update only for John Smith
+mysql> select * from Authors where year(dateOfBirth) > 1950 limit 2; //will show only 2 results
+mysql> select * from Authors where year(dateOfBirth) > 1950 limit 2 offset2 ; //will show only 2 results of 2nd page
+
+Ordering
+mysql> select * from Authors order by lastName; //will order by lastName
+mysql> select * from Authors order by firstName, lastName; //will order by firstName and lastName
+mysql> select * from Authors order by firstName desc; //will order in descending order
+mysql> select * from Authors order by firstName asc, lastName desc; 
+
+
+
+
