@@ -1,0 +1,13 @@
+mysql> update Entry set firstName = '', lastName ='';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from Entry;
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+| id | addressBookId | firstName | lastName | birthday | type | subtype | contentLineOne | contentLineTwo | contentLineThree | contentLineFour | contentLineFive |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+|  1 |             0 |           |          | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  2 |             0 |           |          | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  3 |             0 |           |          | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+3 rows in set (0.00 sec)
