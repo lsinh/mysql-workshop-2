@@ -1,0 +1,137 @@
+in command line:
+
+//What we did here was create a backup called addressbook_backup in data folder and then import that data back into the 
+//decodemtl_addressbook database which was already created.
+
+$ mysqldump decodemtl_addressbook_import > data/addressbook_backup.sql;
+$ mysql -ulsinh  decodemtl_addressbook < data/addressbook_backup.sql 
+$ mysql -ulsinh
+
+mysql> show databases;
++------------------------------+
+| Database                     |
++------------------------------+
+| information_schema           |
+| c9                           |
+| decodemtl_addressbook        |
+| decodemtl_addressbook_import |
+| mysql                        |
+| performance_schema           |
++------------------------------+
+
+mysql> drop database decodemtl_addressbook_import;
+Query OK, 3 rows affected (0.02 sec)
+
+
+//as you can see the database decodemtl_addressbook will have the table-structures imported from decodemtl_addresbook_import
+
+mysql> use decodemtl_addressbook;
+Database changed
+mysql> show tables;
++---------------------------------+
+| Tables_in_decodemtl_addressbook |
++---------------------------------+
+| Account                         |
+| AddressBook                     |
+| Entry                           |
++---------------------------------+
+3 rows in set (0.00 sec)
+
+
+//INSERTING ROWS INTO TABLES
+
+mysql> describe Account;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| id         | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email      | varchar(255) | NO   |     | NULL    |                |
+| password   | varchar(40)  | NO   |     | NULL    |                |
+| createdOn  | datetime     | NO   |     | NULL    |                |
+| modifiedOn | datetime     | YES  |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+5 rows in set (0.01 sec)
+
+mysql> insert into Account set email = 'john@smith.com', password = 'jsmith', createdOn = '01-01-2010', modifiedOn = '01-01-2015';
+Query OK, 1 row affected, 2 warnings (0.09 sec)
+
+mysql> select * from Account;
++----+----------------+----------+---------------------+---------------------+
+| id | email          | password | createdOn           | modifiedOn          |
++----+----------------+----------+---------------------+---------------------+
+|  1 | john@smith.com | jsmith   | 0000-00-00 00:00:00 | 0000-00-00 00:00:00 |
++----+----------------+----------+---------------------+---------------------+
+1 row in set (0.02 sec)
+
+mysql> delete from Account where id=1;                                                                                            
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Account set email = 'john@smith.com', password = 'jsmith', createdOn = '2010-01-01', modifiedOn = '2015-01-01'; 
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from Account;
++----+----------------+----------+---------------------+---------------------+
+| id | email          | password | createdOn           | modifiedOn          |
++----+----------------+----------+---------------------+---------------------+
+|  2 | john@smith.com | jsmith   | 2010-01-01 00:00:00 | 2015-01-01 00:00:00 |
++----+----------------+----------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql>  insert into AddressBook set accountID = 1, name = 'Rachel', createdOn='2012-09-01', modifiedOn='2014-05-09';              
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from AddressBook;
++----+-----------+--------+---------------------+---------------------+
+| id | accountId | name   | createdOn           | modifiedOn          |
++----+-----------+--------+---------------------+---------------------+
+|  1 |         1 | Rachel | 2012-09-01 00:00:00 | 2014-05-09 00:00:00 |
++----+-----------+--------+---------------------+---------------------+
+1 row in set (0.00 sec)
+
+/ADDING THREE ROWS TO ENTRY
+
+mysql> describe Entry;
++------------------+---------------------------------+------+-----+---------+----------------+
+| Field            | Type                            | Null | Key | Default | Extra          |
++------------------+---------------------------------+------+-----+---------+----------------+
+| id               | int(11)                         | NO   | PRI | NULL    | auto_increment |
+| firstName        | varchar(255)                    | NO   |     | NULL    |                |
+| lastName         | varchar(255)                    | YES  |     | NULL    |                |
+| birthday         | datetime                        | YES  |     | NULL    |                |
+| type             | enum('home','work','other')     | NO   |     | NULL    |                |
+| subtype          | enum('phone','address','email') | NO   |     | NULL    |                |
+| contentLineOne   | varchar(255)                    | NO   |     | NULL    |                |
+| contentLineTwo   | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineThree | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineFour  | varchar(255)                    | YES  |     | NULL    |                |
+| contentLineFive  | varchar(255)                    | YES  |     | NULL    |                |
++------------------+---------------------------------+------+-----+---------+----------------+
+12 rows in set (0.00 sec)
+
+
+mysql> Insert into Entry (firstName, lastName) values ('Leichin', 'Sinha');
+Query OK, 1 row affected, 2 warnings (0.04 sec)
+
+mysql> Insert into Entry (firstName, lastName) values ('Sebastien', 'Boucher');                                                   
+Query OK, 1 row affected, 2 warnings (0.00 sec)
+
+mysql> Insert into Entry (firstName, lastName) values ('Alaric', 'Boyle');                                                        
+Query OK, 1 row affected, 2 warnings (0.01 sec)
+
+mysql> select * from Entry;
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+| id | addressBookId | firstName | lastName | birthday | type | subtype | contentLineOne | contentLineTwo | contentLineThree | contentLineFour | contentLineFive |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+|  1 |             0 | Leichin   | Sinha    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  2 |             0 | Sebastien | Boucher  | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
+|  3 |             0 | Alaric    | Boyle    | NULL     | home | phone   |                | NULL           | NULL             | NULL            | NULL            |
++----+---------------+-----------+----------+----------+------+---------+----------------+----------------+------------------+-----------------+-----------------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
